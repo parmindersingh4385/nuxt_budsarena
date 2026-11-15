@@ -5,13 +5,15 @@ useSeoMeta({
         'Explore earbuds from popular brands and compare prices, features, specifications and ratings.'
 });
 
+const { brands } = useBrands();
+
 const searchQuery = ref('');
 const selectedLetter = ref('All');
 
 // Logos that failed to load are replaced by the brand name
 const failedLogos = ref({});
 
-const brands = [
+/* const brands = [
     {
         name: 'Realme',
         slug: 'realme',
@@ -73,7 +75,7 @@ const brands = [
     { name: 'Goboult', slug: 'goboult', logo: '/images/brands/goboult.png' },
     { name: 'Mivi', slug: 'mivi', logo: '/images/brands/mivi.png' },
     { name: 'Marshall', slug: 'marshall', logo: '/images/brands/marshall.png' }
-];
+]; */
 
 const popularBrands = computed(() => brands.filter((brand) => brand.popular));
 
