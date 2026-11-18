@@ -3,6 +3,7 @@
         <main class="content">
             <LayoutAppToolbar />
             <NuxtPage />
+            <LayoutBottomToolbar />
         </main>
         <!-- <nav class="bottom-nav">
             <NuxtLink to="/">Home</NuxtLink>

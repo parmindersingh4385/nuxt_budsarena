@@ -15,6 +15,7 @@ type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {},
 
 
 export const LayoutAppToolbar: typeof import("../app/components/layout/AppToolbar.vue")['default']
+export const LayoutBottomToolbar: typeof import("../app/components/layout/BottomToolbar.vue")['default']
 /**
  * Displays the welcome screen used by new Nuxt projects.
  *
@@ -110,6 +111,7 @@ export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/compone
  */
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const LazyLayoutAppToolbar: LazyComponent<typeof import("../app/components/layout/AppToolbar.vue")['default']>
+export const LazyLayoutBottomToolbar: LazyComponent<typeof import("../app/components/layout/BottomToolbar.vue")['default']>
 /**
  * Lazy-loaded version of `<NuxtWelcome>`.
  *
