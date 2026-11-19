@@ -5,7 +5,7 @@
 }) */
 
 export default defineNuxtConfig({
-    modules: ['@nuxt/fonts'],
+    modules: ['@nuxt/fonts', '@nuxt/icon/module'],
     css: ['~/assets/css/main.css'],
     fonts: {
         families: [

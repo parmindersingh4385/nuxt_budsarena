@@ -89,6 +89,7 @@ export const NuxtImg: typeof import("../node_modules/nuxt/dist/app/components/nu
  * @see https://nuxt.com/docs/4.x/api/components/nuxt-picture
  */
 export const NuxtPicture: typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']
+export const Icon: typeof import("../node_modules/@nuxt/icon/dist/runtime/components/index")['default']
 /**
  * Renders the current page from the `pages/` directory.
  *
@@ -209,6 +210,7 @@ export const LazyNuxtImg: LazyComponent<typeof import("../node_modules/nuxt/dist
  * @see https://nuxt.com/docs/4.x/api/components/nuxt-picture
  */
 export const LazyNuxtPicture: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']>
+export const LazyIcon: LazyComponent<typeof import("../node_modules/@nuxt/icon/dist/runtime/components/index")['default']>
 /**
  * Lazy-loaded version of `<NuxtPage>`.
  *
