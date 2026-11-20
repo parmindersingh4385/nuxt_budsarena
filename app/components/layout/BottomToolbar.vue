@@ -19,7 +19,7 @@ const groups = [
             { label: 'Buying Guide', to: '/buying-guide' },
             { label: 'News & Reviews', to: '/news-reviews' },
             { label: 'About Us', to: '/about' },
-            { label: 'Contact Us', to: '/contact' }
+            { label: 'Contact Us', to: '/contact-us' }
         ]
     },
     {
