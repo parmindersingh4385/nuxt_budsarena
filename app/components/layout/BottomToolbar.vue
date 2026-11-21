@@ -26,9 +26,7 @@ const groups = [
         title: 'Legal',
         links: [
             { label: 'Privacy Policy', to: '/privacy-policy' },
-            { label: 'Affiliate Disclosure', to: '/affiliate-disclosure' },
-            { label: 'Terms of Use', to: '/terms-of-use' },
-            { label: 'Sitemap', to: '/sitemap' }
+            { label: 'Affiliate Disclosure', to: '/affiliate-disclosure' }
         ]
     }
 ];
