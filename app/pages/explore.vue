@@ -1,95 +1,51 @@
-<!--
-  components/ProductDetail.vue  (Nuxt 3, Vue 3 <script setup>)
-  Usage:
-    <ProductDetail :product="product" @compare="onCompare" @wishlist="onWishlist" />
--->
-<script setup lang="ts">
-interface Spec {
-    icon: 'battery' | 'anc' | 'target' | 'drop' | 'dual';
-    value: string;
-    label: string;
-}
-interface Product {
-    name: string;
-    brand: string;
-    brandUrl?: string;
-    rating: number;
-    reviews: number;
-    verified?: boolean;
-    price: number;
-    mrp?: number;
-    buyUrl?: string;
-    images: string[];
-    verdict: string;
-    bestFor: string[];
-    notIdealFor: string[];
-    specs: Spec[];
-}
-
-const props = withDefaults(defineProps<{ product?: Product }>(), {
-    product: () => ({
-        name: 'Realme Buds Air 7',
-        brand: 'Realme',
-        brandUrl: '/brands/realme',
-        rating: 4.3,
-        reviews: 1245,
-        verified: true,
-        price: 2999,
-        mrp: 3999,
-        buyUrl: '#',
-        images: [],
-        verdict:
-            'A strong choice for music lovers looking for powerful bass, good ANC, and long battery life. It also performs well in gaming with low latency and offers a comfortable fit for all-day use.',
-        bestFor: ['Music', 'Bass Lovers', 'Gaming', 'Daily Use'],
-        notIdealFor: ['Calls in Crowd', 'Wireless Charging'],
-        specs: [
-            { icon: 'battery', value: '52H', label: 'Total Battery' },
-            { icon: 'anc', value: '50dB', label: 'ANC' },
-            { icon: 'target', value: '88ms', label: 'Low Latency' },
-            { icon: 'drop', value: 'IP55', label: 'Water Resistant' },
-            { icon: 'dual', value: 'Dual Device', label: 'Connection' }
-        ]
-    })
-});
-
-const emit = defineEmits<{
-    (e: 'compare', added: boolean): void;
-    (e: 'wishlist', added: boolean): void;
-}>();
+<script setup>
+const product = {
+    name: 'Realme Buds Air 7',
+    brand: 'Realme',
+    brandUrl: '/brands/realme',
+    rating: 4.3,
+    reviews: 1245,
+    verified: true,
+    price: 2999,
+    mrp: 3999,
+    buyUrl: '#',
+    images: [], // add image URLs, e.g. '/images/realme-buds-air-7-1.webp'
+    verdict:
+        'A strong choice for music lovers looking for powerful bass, good ANC, and long battery life. It also performs well in gaming with low latency and offers a comfortable fit for all-day use.',
+    bestFor: ['Music', 'Bass Lovers', 'Gaming', 'Daily Use'],
+    notIdealFor: ['Calls in Crowd', 'Wireless Charging'],
+    specs: [
+        { icon: 'battery', value: '52H', label: 'Total Battery' },
+        { icon: 'anc', value: '50dB', label: 'ANC' },
+        { icon: 'target', value: '88ms', label: 'Low Latency' },
+        { icon: 'drop', value: 'IP55', label: 'Water Resistant' },
+        { icon: 'dual', value: 'Dual Device', label: 'Connection' }
+    ]
+};
 
 const active = ref(0);
 const favourite = ref(false);
 const inCompare = ref(false);
 const inWishlist = ref(false);
 
-const count = computed(() => props.product.images.length);
-const inr = (n: number) => '₹' + new Intl.NumberFormat('en-IN').format(n);
-const saved = computed(() => (props.product.mrp ?? 0) - props.product.price);
+const count = computed(() => product.images.length);
+const inr = (n) => '₹' + new Intl.NumberFormat('en-IN').format(n);
+const saved = computed(() => (product.mrp ?? 0) - product.price);
 const percent = computed(() =>
-    props.product.mrp ? Math.round((saved.value / props.product.mrp) * 100) : 0
+    product.mrp ? Math.round((saved.value / product.mrp) * 100) : 0
 );
-const starFill = computed(() => `${(props.product.rating / 5) * 100}%`);
+const starFill = computed(() => `${(product.rating / 5) * 100}%`);
 
-function go(step: number) {
+function go(step) {
     if (!count.value) return;
     active.value = (active.value + step + count.value) % count.value;
 }
-function toggleCompare() {
-    inCompare.value = !inCompare.value;
-    emit('compare', inCompare.value);
-}
-function toggleWishlist() {
-    inWishlist.value = !inWishlist.value;
-    emit('wishlist', inWishlist.value);
-}
+
 async function share() {
     if (!import.meta.client) return;
     try {
         if (navigator.share)
-            await navigator.share({
-                title: props.product.name,
-                url: location.href
-            });
+            await navigator.share({ title: product.name, url: location.href });
         else await navigator.clipboard.writeText(location.href);
     } catch {}
 }
@@ -301,7 +257,7 @@ async function share() {
                         class="btn"
                         :class="{ on: inCompare }"
                         :aria-pressed="inCompare"
-                        @click="toggleCompare"
+                        @click="inCompare = !inCompare"
                     >
                         <svg class="i"><use href="#pd-swap" /></svg
                         >{{ inCompare ? 'Added to Compare' : 'Add to Compare' }}
@@ -310,7 +266,7 @@ async function share() {
                         class="btn"
                         :class="{ on: inWishlist }"
                         :aria-pressed="inWishlist"
-                        @click="toggleWishlist"
+                        @click="inWishlist = !inWishlist"
                     >
                         <svg class="i"><use href="#pd-heart" /></svg
                         >{{ inWishlist ? 'In Wishlist' : 'Add to Wishlist' }}
@@ -570,7 +526,7 @@ async function share() {
 }
 h1 {
     margin: 0;
-    font-size: clamp(26px, 3.6vw, 34px);
+    font-size: clamp(26px, 3.6vw, 28px);
     line-height: 1.15;
     font-weight: 600;
     letter-spacing: -0.01em;
