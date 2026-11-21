@@ -10,10 +10,10 @@ const product = {
     mrp: 3999,
     buyUrl: '#',
     images: [
-        'https://m.media-amazon.com/images/I/71HhfbeifSL._SL1500_.jpg',
         'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
         'https://m.media-amazon.com/images/I/71Zp3k052mL._SL1500_.jpg',
         'https://m.media-amazon.com/images/I/71DpzNlOUUL._SL1500_.jpg',
+        'https://m.media-amazon.com/images/I/41JRgDZx60L._SL1500_.jpg',
         'https://m.media-amazon.com/images/I/51HbucDWUIL._SL1080_.jpg'
     ], // add image URLs, e.g. '/images/realme-buds-air-7-1.webp'
     verdict:
