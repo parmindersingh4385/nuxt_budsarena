@@ -9,7 +9,13 @@ const product = {
     price: 2999,
     mrp: 3999,
     buyUrl: '#',
-    images: [], // add image URLs, e.g. '/images/realme-buds-air-7-1.webp'
+    images: [
+        'https://m.media-amazon.com/images/I/71HhfbeifSL._SL1500_.jpg',
+        'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        'https://m.media-amazon.com/images/I/71Zp3k052mL._SL1500_.jpg',
+        'https://m.media-amazon.com/images/I/71DpzNlOUUL._SL1500_.jpg',
+        'https://m.media-amazon.com/images/I/51HbucDWUIL._SL1080_.jpg'
+    ], // add image URLs, e.g. '/images/realme-buds-air-7-1.webp'
     verdict:
         'A strong choice for music lovers looking for powerful bass, good ANC, and long battery life. It also performs well in gaming with low latency and offers a comfortable fit for all-day use.',
     bestFor: ['Music', 'Bass Lovers', 'Gaming', 'Daily Use'],
@@ -418,11 +424,24 @@ async function share() {
     place-items: center;
     overflow: hidden;
 }
-.main-img {
+.main-img88 {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
+}
+.main-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 12px;
+    display: block;
+}
+.main-img,
+.thumb img {
+    mix-blend-mode: multiply;
 }
 .round {
     position: absolute;
