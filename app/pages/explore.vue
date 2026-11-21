@@ -371,7 +371,6 @@ async function share() {
     box-sizing: border-box;
 }
 .pd a {
-    color: inherit;
     text-decoration: none;
 }
 .pd button {
