@@ -280,13 +280,18 @@ const off = (e) =>
     place-items: center;
     overflow: hidden;
 }
+
 .img img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
     object-fit: contain;
     padding: 10px;
     mix-blend-mode: multiply;
 }
+
 .ph {
     font-size: 44px;
     color: #b7bcc2;
