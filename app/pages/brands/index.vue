@@ -28,8 +28,7 @@ const list = computed(() => {
     <div class="brands-page">
         <h1>Earbuds Brands</h1>
         <p class="intro">
-            Explore earbuds from popular brands and compare prices, features,
-            specifications and ratings.
+            Explore earbuds from some of the most popular brands.
         </p>
 
         <div class="search">
@@ -41,9 +40,6 @@ const list = computed(() => {
                 aria-label="Search brands"
             />
         </div>
-
-        <h2>Popular Brands</h2>
-        <p class="sub">Explore earbuds from some of the most popular brands.</p>
 
         <div v-if="list.length" class="brand-grid">
             <NuxtLink
