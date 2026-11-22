@@ -656,7 +656,7 @@ h1 em {
 
 /* Sections */
 .sec {
-    padding-top: 76px;
+    padding-top: 35px;
 }
 .sec h2 {
     margin: 0;
