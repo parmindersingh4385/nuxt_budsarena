@@ -26,6 +26,11 @@ const list = computed(() => {
 
 <template>
     <div class="brands-page">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <NuxtLink to="/">Home</NuxtLink><span aria-hidden="true">›</span>
+            <b>Brands</b>
+        </nav>
+
         <h1>Earbuds Brands</h1>
         <p class="intro">
             Explore earbuds from some of the most popular brands.
@@ -72,7 +77,7 @@ const list = computed(() => {
 .brands-page {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 32px 16px 70px;
+    padding: 16px 16px 70px;
     color: #1b1d20;
     font-family:
         'Poppins',
@@ -82,6 +87,24 @@ const list = computed(() => {
         Roboto,
         sans-serif;
 }
+
+.crumbs {
+    padding: 0 0 18px;
+    font-size: 14px;
+    color: #5f666d;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.crumbs a {
+    color: #12605f;
+    text-decoration: none;
+}
+.crumbs b {
+    color: #1b1d20;
+    font-weight: 500;
+}
+
 h1 {
     margin: 0;
     font-size: 32px;
