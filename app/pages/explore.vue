@@ -682,7 +682,7 @@ h1 {
     color: #17734a;
     border-radius: 6px;
     padding: 2px 8px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
 }
 .card h2 {
