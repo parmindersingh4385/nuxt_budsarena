@@ -141,13 +141,13 @@ const year = new Date().getFullYear();
 
 <style scoped>
 .site-footer {
-    --ft-bg: #0f1b2a;
-    --ft-line: #26344a;
+    --ft-bg: #12605f;
+    --ft-line: rgba(255, 255, 255, 0.2);
     --ft-text: #fff;
-    --ft-link: #a9b9d6;
-    --ft-muted: #8fa0b8;
-    --ft-chip: #1a2738;
-    --ft-blue: #2b7fff;
+    --ft-link: #d3ebe8;
+    --ft-muted: #b9d8d4;
+    --ft-chip: rgba(255, 255, 255, 0.14);
+    --ft-blue: #8fe3dc;
     background: var(--ft-bg);
     color: var(--ft-text);
     padding: 32px 20px calc(14px + env(safe-area-inset-bottom, 0px));
@@ -162,6 +162,7 @@ const year = new Date().getFullYear();
 .site-footer * {
     box-sizing: border-box;
 }
+
 .ft-wrap {
     max-width: 1200px;
     margin: 0 auto;

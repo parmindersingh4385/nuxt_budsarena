@@ -551,11 +551,22 @@ h1 em {
     height: 44px;
     border: 1px solid #cfd3d9;
     border-radius: 8px;
-    padding: 0 12px;
+    padding: 0 40px 0 12px;
     font: inherit;
     font-size: 14px;
-    background: #fff;
+    background-color: #fff;
     color: #1b1d20;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235f666d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+}
+.fld select:focus {
+    border-color: #12605f;
+    box-shadow: 0 0 0 3px rgba(18, 96, 95, 0.15);
+    outline: none;
 }
 .go {
     width: 100%;
