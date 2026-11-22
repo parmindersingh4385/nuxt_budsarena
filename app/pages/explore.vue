@@ -1,343 +1,461 @@
+<!--
+  pages/explore.vue  (Nuxt 3, plain <script setup>, no props, no TypeScript)
+  Route: /explore
+  Example: /explore?minPrice=3000&use=gym&anc=true
+  Supported query params: q, minPrice, maxPrice, use, anc, sort (rating | low | high | reviews)
+  Needs: @nuxt/icon + @iconify-json/material-symbols
+  Header and footer live in layouts/default.vue, not in this file.
+  `catalog` below is SAMPLE data. Replace with your API, e.g.:
+    const { data: catalog } = await useFetch('/api/earbuds')   // then use catalog.value
+-->
 <script setup>
-const product = {
-    name: 'Realme Buds Air 7',
-    brand: 'Realme',
-    brandUrl: '/brands/realme',
-    rating: 4.3,
-    reviews: 1245,
-    verified: true,
-    price: 2999,
-    mrp: 3999,
-    buyUrl: '#',
-    images: [
-        'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
-        'https://m.media-amazon.com/images/I/71Zp3k052mL._SL1500_.jpg',
-        'https://m.media-amazon.com/images/I/71DpzNlOUUL._SL1500_.jpg',
-        'https://m.media-amazon.com/images/I/41JRgDZx60L._SL1500_.jpg',
-        'https://m.media-amazon.com/images/I/51HbucDWUIL._SL1080_.jpg'
-    ], // add image URLs, e.g. '/images/realme-buds-air-7-1.webp'
-    verdict:
-        'A strong choice for music lovers looking for powerful bass, good ANC, and long battery life. It also performs well in gaming with low latency and offers a comfortable fit for all-day use.',
-    bestFor: ['Music', 'Bass Lovers', 'Gaming', 'Daily Use'],
-    notIdealFor: ['Calls in Crowd', 'Wireless Charging'],
-    specs: [
-        { icon: 'battery', value: '52H', label: 'Total Battery' },
-        { icon: 'anc', value: '50dB', label: 'ANC' },
-        { icon: 'target', value: '88ms', label: 'Low Latency' },
-        { icon: 'drop', value: 'IP55', label: 'Water Resistant' },
-        { icon: 'dual', value: 'Dual Device', label: 'Connection' }
-    ]
+const route = useRoute();
+const router = useRouter();
+
+// ---------- SAMPLE data (replace with real data) ----------
+const catalog = [
+    {
+        slug: 'oneplus-buds-4',
+        name: 'OnePlus Buds 4',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.5,
+        reviews: 2124,
+        price: 5999,
+        mrp: 6499,
+        anc: 45,
+        ip: 'IP55',
+        uses: ['gym', 'travel', 'office'],
+        highlight: {
+            label: 'Workout ready',
+            icon: 'material-symbols:directions-run'
+        }
+    },
+    {
+        slug: 'nothing-ear-a',
+        name: 'Nothing Ear (a)',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.4,
+        reviews: 1732,
+        price: 5499,
+        mrp: 6999,
+        anc: 45,
+        ip: 'IP54',
+        uses: ['gym', 'office'],
+        highlight: {
+            label: 'Secure fit',
+            icon: 'material-symbols:shield-outline'
+        }
+    },
+    {
+        slug: 'realme-buds-air-7-pro',
+        name: 'Realme Buds Air 7 Pro',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.5,
+        reviews: 987,
+        price: 4999,
+        mrp: 5999,
+        anc: 50,
+        ip: 'IP55',
+        uses: ['gym', 'travel'],
+        highlight: {
+            label: 'Workout ready',
+            icon: 'material-symbols:directions-run'
+        }
+    },
+    {
+        slug: 'jbl-tune-beam-2',
+        name: 'JBL Tune Beam 2',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.3,
+        reviews: 1265,
+        price: 4499,
+        mrp: 5999,
+        anc: 40,
+        ip: 'IP54',
+        uses: ['gym', 'calling'],
+        highlight: {
+            label: 'Secure fit',
+            icon: 'material-symbols:shield-outline'
+        }
+    },
+    {
+        slug: 'realme-buds-air-7',
+        name: 'Realme Buds Air 7',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.3,
+        reviews: 1245,
+        price: 2999,
+        mrp: 3999,
+        anc: 50,
+        ip: 'IP55',
+        uses: ['travel', 'office', 'students'],
+        highlight: {
+            label: 'Long battery',
+            icon: 'material-symbols:battery-full-outline'
+        }
+    },
+    {
+        slug: 'oneplus-nord-buds-3',
+        name: 'OnePlus Nord Buds 3',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.1,
+        reviews: 980,
+        price: 2199,
+        mrp: 2699,
+        anc: 32,
+        ip: 'IP55',
+        uses: ['office', 'students', 'calling'],
+        highlight: {
+            label: 'Clear calls',
+            icon: 'material-symbols:phone-in-talk-outline'
+        }
+    },
+    {
+        slug: 'boat-airdopes-141',
+        name: 'boAt Airdopes 141',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.0,
+        reviews: 15210,
+        price: 999,
+        mrp: 4490,
+        anc: 0,
+        ip: 'IPX4',
+        uses: ['gaming', 'students', 'gym'],
+        highlight: {
+            label: 'Low latency',
+            icon: 'material-symbols:speed-outline'
+        }
+    },
+    {
+        slug: 'realme-buds-t300',
+        name: 'Realme Buds T300',
+        image: 'https://m.media-amazon.com/images/I/61ieBxHtuKL._SL1500_.jpg',
+        rating: 4.2,
+        reviews: 3120,
+        price: 1999,
+        mrp: 2999,
+        anc: 30,
+        ip: 'IP55',
+        uses: ['travel', 'students'],
+        highlight: {
+            label: 'Long battery',
+            icon: 'material-symbols:battery-full-outline'
+        }
+    }
+];
+
+const useInfo = {
+    gym: { label: 'Gym', blurb: 'workouts and an active lifestyle' },
+    office: { label: 'Office', blurb: 'work and clear calls' },
+    travel: { label: 'Travel', blurb: 'travel and long journeys' },
+    students: {
+        label: 'Students',
+        blurb: 'study and everyday listening on a budget'
+    },
+    gaming: { label: 'Gaming', blurb: 'gaming with low latency' },
+    calling: { label: 'Calling', blurb: 'clear calls' }
 };
 
-const active = ref(0);
-const favourite = ref(false);
-const inCompare = ref(false);
-const inWishlist = ref(false);
+const sortOptions = [
+    { value: 'rating', label: 'Top rated' },
+    { value: 'reviews', label: 'Most reviewed' },
+    { value: 'low', label: 'Price: Low to High' },
+    { value: 'high', label: 'Price: High to Low' }
+];
 
-const count = computed(() => product.images.length);
-const inr = (n) => '₹' + new Intl.NumberFormat('en-IN').format(n);
-const saved = computed(() => (product.mrp ?? 0) - product.price);
-const percent = computed(() =>
-    product.mrp ? Math.round((saved.value / product.mrp) * 100) : 0
+// ---------- Filters come from the URL ----------
+const one = (v) => (Array.isArray(v) ? v[0] : v);
+const num = (v) => {
+    const s = one(v);
+    if (s === undefined || s === null || s === '') return null;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : null;
+};
+
+const minPrice = computed(() => num(route.query.minPrice));
+const maxPrice = computed(() => num(route.query.maxPrice));
+const use = computed(() => String(one(route.query.use) || '').toLowerCase());
+const anc = computed(() => one(route.query.anc) === 'true');
+const sort = computed(() =>
+    sortOptions.some((o) => o.value === one(route.query.sort))
+        ? one(route.query.sort)
+        : 'rating'
 );
-const starFill = computed(() => `${(product.rating / 5) * 100}%`);
 
-function go(step) {
-    if (!count.value) return;
-    active.value = (active.value + step + count.value) % count.value;
+const inr = (n) => '₹' + new Intl.NumberFormat('en-IN').format(n);
+
+function setQuery(patch) {
+    const next = { ...route.query, ...patch };
+    Object.keys(next).forEach((k) => {
+        if (
+            next[k] === null ||
+            next[k] === undefined ||
+            next[k] === '' ||
+            next[k] === false
+        )
+            delete next[k];
+    });
+    return next;
+}
+const go = (patch) => router.push({ query: setQuery(patch) });
+
+// ---------- Search box (updates ?q= after a short pause) ----------
+const search = ref(String(one(route.query.q) || ''));
+let timer;
+watch(search, (v) => {
+    clearTimeout(timer);
+    timer = setTimeout(
+        () => router.replace({ query: setQuery({ q: v.trim() }) }),
+        300
+    );
+});
+watch(
+    () => route.query.q,
+    (v) => {
+        const s = String(one(v) || '');
+        if (s !== search.value.trim()) search.value = s;
+    }
+);
+onBeforeUnmount(() => clearTimeout(timer));
+
+// ---------- Page text ----------
+const heading = computed(() =>
+    useInfo[use.value]
+        ? `${useInfo[use.value].label} Earbuds`
+        : 'Explore Earbuds'
+);
+
+const priceText = computed(() => {
+    if (minPrice.value !== null && maxPrice.value !== null)
+        return `priced between ${inr(minPrice.value)} and ${inr(maxPrice.value)}`;
+    if (minPrice.value !== null) return `priced above ${inr(minPrice.value)}`;
+    if (maxPrice.value !== null) return `priced under ${inr(maxPrice.value)}`;
+    return '';
+});
+
+const description = computed(() => {
+    let s = 'Explore earbuds';
+    if (priceText.value) s += ` ${priceText.value}`;
+    if (anc.value) s += ' with ANC';
+    if (useInfo[use.value])
+        s += `${priceText.value || anc.value ? ',' : ''} selected for ${useInfo[use.value].blurb}`;
+    return s + '.';
+});
+
+useSeoMeta({
+    title: () => `${heading.value} – BudsArena`,
+    description: () => description.value
+});
+
+// ---------- Filter chips ----------
+const chips = computed(() => {
+    const list = [];
+    if (minPrice.value !== null || maxPrice.value !== null) {
+        let label;
+        if (minPrice.value !== null && maxPrice.value !== null)
+            label = `Price: ${inr(minPrice.value)} – ${inr(maxPrice.value)}`;
+        else if (minPrice.value !== null)
+            label = `Price: ${inr(minPrice.value)}+`;
+        else label = `Price: Under ${inr(maxPrice.value)}`;
+        list.push({
+            key: 'price',
+            label,
+            clear: { minPrice: null, maxPrice: null }
+        });
+    }
+    if (use.value)
+        list.push({
+            key: 'use',
+            label: `Use: ${useInfo[use.value]?.label || use.value}`,
+            clear: { use: null }
+        });
+    if (anc.value)
+        list.push({ key: 'anc', label: 'ANC: Yes', clear: { anc: null } });
+    return list;
+});
+
+function clearAll() {
+    go({ minPrice: null, maxPrice: null, use: null, anc: null });
 }
 
-async function share() {
-    if (!import.meta.client) return;
-    try {
-        if (navigator.share)
-            await navigator.share({ title: product.name, url: location.href });
-        else await navigator.clipboard.writeText(location.href);
-    } catch {}
-}
+// ---------- Results ----------
+const results = computed(() => {
+    const q = search.value.trim().toLowerCase();
+    const items = catalog.filter((p) => {
+        if (minPrice.value !== null && p.price < minPrice.value) return false;
+        if (maxPrice.value !== null && p.price > maxPrice.value) return false;
+        if (use.value && !p.uses.includes(use.value)) return false;
+        if (anc.value && !p.anc) return false;
+        if (q && !p.name.toLowerCase().includes(q)) return false;
+        return true;
+    });
+    if (sort.value === 'low') items.sort((a, b) => a.price - b.price);
+    else if (sort.value === 'high') items.sort((a, b) => b.price - a.price);
+    else if (sort.value === 'reviews')
+        items.sort((a, b) => b.reviews - a.reviews);
+    else items.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
+    return items;
+});
+
+const saved = (p) => (p.mrp > p.price ? p.mrp - p.price : 0);
 </script>
 
 <template>
-    <div class="pd">
-        <!-- Icon sprite -->
-        <svg width="0" height="0" style="position: absolute" aria-hidden="true">
-            <symbol id="pd-bag" viewBox="0 0 24 24">
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                <path d="M3 6h18" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-            </symbol>
-            <symbol id="pd-swap" viewBox="0 0 24 24">
-                <path d="M17 3l4 4-4 4" />
-                <path d="M3 7h18" />
-                <path d="M7 21l-4-4 4-4" />
-                <path d="M21 17H3" />
-            </symbol>
-            <symbol id="pd-heart" viewBox="0 0 24 24">
-                <path
-                    d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"
-                />
-            </symbol>
-            <symbol id="pd-bolt" viewBox="0 0 24 24">
-                <path d="M13 2 3 14h9l-1 8 10-12h-9z" />
-            </symbol>
-            <symbol id="pd-clock" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9" />
-                <path d="M12 7v5l3 2" />
-            </symbol>
-            <symbol id="pd-share" viewBox="0 0 24 24">
-                <circle cx="18" cy="5" r="3" />
-                <circle cx="6" cy="12" r="3" />
-                <circle cx="18" cy="19" r="3" />
-                <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" />
-            </symbol>
-            <symbol id="pd-shield" viewBox="0 0 24 24">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <path d="M9 12l2 2 4-4" />
-            </symbol>
-            <symbol id="pd-spark" viewBox="0 0 24 24">
-                <path
-                    d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"
-                />
-            </symbol>
-            <symbol id="pd-battery" viewBox="0 0 24 24">
-                <rect x="6" y="4" width="12" height="18" rx="2" />
-                <path d="M10 2h4" />
-                <path d="M12 9v6M9 12h6" />
-            </symbol>
-            <symbol id="pd-anc" viewBox="0 0 24 24">
-                <path d="M3 10v4M7 7v10M11 4v16M15 7v10M19 10v4M22 11v2" />
-            </symbol>
-            <symbol id="pd-target" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9" />
-                <circle cx="12" cy="12" r="5" />
-                <circle cx="12" cy="12" r="1.5" />
-            </symbol>
-            <symbol id="pd-drop" viewBox="0 0 24 24">
-                <path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z" />
-            </symbol>
-            <symbol id="pd-dual" viewBox="0 0 24 24">
-                <path d="M4 8h16l-4-4" />
-                <path d="M20 16H4l4 4" />
-            </symbol>
-            <symbol id="pd-prev" viewBox="0 0 24 24">
-                <path d="M15 5l-7 7 7 7" />
-            </symbol>
-            <symbol id="pd-next" viewBox="0 0 24 24">
-                <path d="M9 5l7 7-7 7" />
-            </symbol>
-        </svg>
+    <div class="ex">
+        <div class="w">
+            <nav class="crumbs" aria-label="Breadcrumb">
+                <NuxtLink to="/">Home</NuxtLink
+                ><span aria-hidden="true">›</span>
+                <NuxtLink to="/explore">Explore</NuxtLink>
+                <template v-if="use && useInfo[use]"
+                    ><span aria-hidden="true">›</span
+                    ><b>{{ heading }}</b></template
+                >
+            </nav>
 
-        <nav class="crumbs" aria-label="Breadcrumb">
-            <NuxtLink to="/">Home</NuxtLink><span aria-hidden="true">›</span>
-            <NuxtLink :to="product.brandUrl || '#'">{{
-                product.brand
-            }}</NuxtLink
-            ><span aria-hidden="true">›</span>
-            <b>{{ product.name }}</b>
-        </nav>
+            <h1>{{ heading }}</h1>
+            <p class="lead">{{ description }}</p>
 
-        <div class="grid">
-            <!-- Gallery -->
-            <section aria-label="Product images">
-                <div class="stage">
-                    <button
-                        class="round nav prev"
-                        aria-label="Previous image"
-                        @click="go(-1)"
-                    >
-                        <svg class="i"><use href="#pd-prev" /></svg>
-                    </button>
-                    <button
-                        class="round nav next"
-                        aria-label="Next image"
-                        @click="go(1)"
-                    >
-                        <svg class="i"><use href="#pd-next" /></svg>
-                    </button>
-                    <button
-                        class="round fav"
-                        :class="{ on: favourite }"
-                        :aria-pressed="favourite"
-                        aria-label="Save to favourites"
-                        @click="favourite = !favourite"
-                    >
-                        <svg class="i"><use href="#pd-heart" /></svg>
-                    </button>
-                    <img
-                        v-if="count"
-                        :src="product.images[active]"
-                        :alt="`${product.name} image ${active + 1}`"
-                        class="main-img"
+            <!-- Search + sort -->
+            <div class="bar">
+                <label class="sr">
+                    <Icon name="material-symbols:search" />
+                    <input
+                        v-model="search"
+                        type="search"
+                        :placeholder="
+                            useInfo[use]
+                                ? `Search ${use} earbuds…`
+                                : 'Search earbuds…'
+                        "
+                        aria-label="Search earbuds"
                     />
-                </div>
+                </label>
+                <label class="sort">
+                    <span>Sort by:</span>
+                    <select
+                        :value="sort"
+                        @change="
+                            go({
+                                sort:
+                                    $event.target.value === 'rating'
+                                        ? null
+                                        : $event.target.value
+                            })
+                        "
+                    >
+                        <option
+                            v-for="o in sortOptions"
+                            :key="o.value"
+                            :value="o.value"
+                        >
+                            {{ o.label }}
+                        </option>
+                    </select>
+                </label>
+            </div>
 
-                <div class="thumbs" role="tablist">
+            <!-- Active filters -->
+            <div v-if="chips.length" class="chips">
+                <span v-for="c in chips" :key="c.key" class="chip">
+                    {{ c.label }}
                     <button
-                        v-for="(src, k) in product.images"
-                        :key="src + k"
-                        class="thumb"
-                        role="tab"
-                        :aria-selected="k === active"
-                        :aria-label="`Image ${k + 1}`"
-                        @click="active = k"
+                        type="button"
+                        :aria-label="`Remove filter ${c.label}`"
+                        @click="go(c.clear)"
                     >
-                        <img :src="src" alt="" loading="lazy" />
+                        <Icon name="material-symbols:close" />
                     </button>
-                </div>
+                </span>
+                <button type="button" class="clear" @click="clearAll">
+                    Clear all
+                </button>
+            </div>
 
-                <div class="specs">
-                    <div v-for="s in product.specs" :key="s.label" class="spec">
-                        <svg class="i"><use :href="`#pd-${s.icon}`" /></svg>
-                        <b>{{ s.value }}</b>
-                        <small>{{ s.label }}</small>
+            <p class="count" role="status">
+                {{ results.length }}
+                {{ results.length === 1 ? 'result' : 'results' }} found
+            </p>
+
+            <!-- Results -->
+            <div v-if="results.length" class="grid">
+                <NuxtLink
+                    v-for="p in results"
+                    :key="p.slug"
+                    :to="`/earbuds/${p.slug}`"
+                    class="card"
+                >
+                    <div class="img">
+                        <img
+                            v-if="p.image"
+                            :src="p.image"
+                            :alt="p.name"
+                            loading="lazy"
+                        />
+                        <Icon
+                            v-else
+                            name="material-symbols:headphones-outline"
+                            class="ph"
+                        />
+                        <span v-if="saved(p)" class="badge"
+                            >{{ inr(saved(p)) }} OFF</span
+                        >
                     </div>
-                </div>
-            </section>
-
-            <!-- Info -->
-            <section>
-                <div class="head">
-                    <div>
-                        <h1>{{ product.name }}</h1>
-                        <NuxtLink class="brand" :to="product.brandUrl || '#'">{{
-                            product.brand
-                        }}</NuxtLink>
+                    <h2>{{ p.name }}</h2>
+                    <div class="rate">
+                        <Icon
+                            name="material-symbols:star-rounded"
+                            class="star"
+                        /><b>{{ p.rating }}</b>
+                        <span
+                            >({{
+                                new Intl.NumberFormat('en-IN').format(
+                                    p.reviews
+                                )
+                            }})</span
+                        >
                     </div>
-                    <button class="share" @click="share">
-                        <svg class="i"><use href="#pd-share" /></svg>Share
-                    </button>
-                </div>
-
-                <div class="rate">
-                    <span
-                        class="stars"
-                        :style="{ '--fill': starFill }"
-                        role="img"
-                        :aria-label="`${product.rating} out of 5 stars`"
-                        >★★★★★</span
-                    >
-                    <b>{{ product.rating }}</b>
-                    <span class="n"
-                        >({{
-                            new Intl.NumberFormat('en-IN').format(
-                                product.reviews
-                            )
-                        }}
-                        reviews)</span
-                    >
-                    <span v-if="product.verified" class="ver"
-                        ><svg class="i"><use href="#pd-shield" /></svg
-                        >Verified</span
-                    >
-                </div>
-
-                <div class="price">
-                    <span class="now">{{ inr(product.price) }}</span>
-                    <template v-if="product.mrp && product.mrp > product.price">
-                        <span class="old">{{ inr(product.mrp) }}</span>
-                        <span class="off">{{ percent }}% OFF</span>
-                    </template>
-                </div>
-                <div v-if="saved > 0" class="deal">
-                    <span class="good"
-                        ><svg class="i"><use href="#pd-bolt" /></svg>Good
-                        Price</span
-                    >
-                    <span
-                        ><svg class="i"><use href="#pd-clock" /></svg>You save
-                        {{ inr(saved) }} ({{ percent }}%)</span
-                    >
-                </div>
-
-                <div class="cta">
-                    <a
-                        class="btn primary"
-                        :href="product.buyUrl"
-                        target="_blank"
-                        rel="noopener sponsored"
-                    >
-                        <svg class="i"><use href="#pd-bag" /></svg>View Best
-                        Price
-                    </a>
-                    <button
-                        class="btn"
-                        :class="{ on: inCompare }"
-                        :aria-pressed="inCompare"
-                        @click="inCompare = !inCompare"
-                    >
-                        <svg class="i"><use href="#pd-swap" /></svg
-                        >{{ inCompare ? 'Added to Compare' : 'Add to Compare' }}
-                    </button>
-                    <button
-                        class="btn"
-                        :class="{ on: inWishlist }"
-                        :aria-pressed="inWishlist"
-                        @click="inWishlist = !inWishlist"
-                    >
-                        <svg class="i"><use href="#pd-heart" /></svg
-                        >{{ inWishlist ? 'In Wishlist' : 'Add to Wishlist' }}
-                    </button>
-                </div>
-
-                <div class="verdict">
-                    <h2>
-                        <svg class="i spark"><use href="#pd-spark" /></svg
-                        >BudsArena Verdict
-                    </h2>
-                    <p>{{ product.verdict }}</p>
-                    <div class="fit">
-                        <div>
-                            <h3>Best For</h3>
-                            <div class="tags">
-                                <span
-                                    v-for="t in product.bestFor"
-                                    :key="t"
-                                    class="tag"
-                                    >{{ t }}</span
-                                >
-                            </div>
-                        </div>
-                        <div>
-                            <h3>Not Ideal For</h3>
-                            <div class="tags">
-                                <span
-                                    v-for="t in product.notIdealFor"
-                                    :key="t"
-                                    class="tag no"
-                                    >{{ t }}</span
-                                >
-                            </div>
-                        </div>
+                    <div class="price">
+                        <strong>{{ inr(p.price) }}</strong
+                        ><s v-if="p.mrp > p.price">{{ inr(p.mrp) }}</s>
                     </div>
-                </div>
-            </section>
+                    <ul class="feat">
+                        <li v-if="p.anc">
+                            <Icon name="material-symbols:graphic-eq" />ANC
+                        </li>
+                        <li v-if="p.ip">
+                            <Icon
+                                name="material-symbols:water-drop-outline"
+                            />{{ p.ip }}
+                        </li>
+                        <li v-if="p.highlight">
+                            <Icon :name="p.highlight.icon" />{{
+                                p.highlight.label
+                            }}
+                        </li>
+                    </ul>
+                </NuxtLink>
+            </div>
+
+            <div v-else class="empty">
+                <Icon name="material-symbols:search-off" class="big" />
+                <p>No earbuds match these filters.</p>
+                <button
+                    v-if="chips.length"
+                    type="button"
+                    class="btn"
+                    @click="clearAll"
+                >
+                    Clear all filters
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.pd {
-    --bg: #fff;
-    --surface: #f3f4f5;
-    --text: #1b1d20;
-    --muted: #5f666d;
-    --line: #e6e8ea;
-    --brand: #12605f;
-    --brand-ink: #fff;
-    --vbg: linear-gradient(135deg, #e6f5ef, #f1faf6);
-    --vline: #cfe6dc;
-    --good: #17734a;
-    --goodbg: #ddf3e7;
-    --bad: #d32f2f;
-    --badbg: #fdeeee;
-    --badline: #f4b9b9;
-    --tagbg: #e3f4ec;
-    --star: #f6a623;
-    --empty: #d9dcdf;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 16px;
-    color: var(--text);
+.ex {
+    color: #1b1d20;
     line-height: 1.5;
     font-family:
         'Poppins',
@@ -346,422 +464,338 @@ async function share() {
         'Segoe UI',
         Roboto,
         sans-serif;
+    padding-bottom: 70px;
 }
-@media (prefers-color-scheme: dark) {
-    .pd {
-        --bg: #101315;
-        --surface: #1b1f22;
-        --text: #eef0f1;
-        --muted: #a3abb2;
-        --line: #2c3236;
-        --brand: #2a9d9d;
-        --brand-ink: #08191a;
-        --vbg: linear-gradient(135deg, #14282a, #112224);
-        --vline: #24474a;
-        --good: #6fdca2;
-        --goodbg: #173a2a;
-        --bad: #ff8b8b;
-        --badbg: #3a1a1a;
-        --badline: #6b2d2d;
-        --tagbg: #173a2a;
-        --empty: #3a4146;
-    }
-}
-.pd * {
+.ex * {
     box-sizing: border-box;
 }
-.pd a {
+.ex a {
     text-decoration: none;
-}
-.pd button {
-    font: inherit;
-    cursor: pointer;
     color: inherit;
 }
-.pd :focus-visible {
-    outline: 2px solid var(--brand);
+.ex button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+.ex :focus-visible {
+    outline: 2px solid #12605f;
     outline-offset: 2px;
 }
-.i {
-    width: 1em;
-    height: 1em;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    flex: none;
+.w {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
+
 .crumbs {
-    padding: 16px 0 18px;
-    font-size: 14px;
-    color: var(--muted);
     display: flex;
     gap: 12px;
     align-items: center;
+    padding: 20px 0 14px;
+    font-size: 14px;
+    color: #5f666d;
 }
 .crumbs a {
-    color: var(--brand);
+    color: #12605f;
 }
 .crumbs b {
-    color: var(--text);
+    color: #1b1d20;
     font-weight: 500;
 }
-.grid {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
-    gap: 36px;
-    align-items: start;
+h1 {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 600;
+}
+.lead {
+    margin: 10px 0 0;
+    font-size: 15px;
+    color: #5f666d;
 }
 
-.stage {
+.bar {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 24px 0 18px;
+}
+.sr {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #cfd3d9;
+    border-radius: 8px;
+    background: #fff;
+    color: #6b7280;
+    font-size: 20px;
+}
+.sr:focus-within {
+    border-color: #12605f;
+    box-shadow: 0 0 0 3px rgba(18, 96, 95, 0.15);
+}
+.sr input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: none;
+    font: inherit;
+    font-size: 14px;
+    color: #1b1d20;
+    min-width: 0;
+}
+.sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #5f666d;
+    white-space: nowrap;
+}
+.sort select {
+    height: 42px;
+    min-width: 170px;
+    border: 1px solid #cfd3d9;
+    border-radius: 8px;
+    padding: 0 40px 0 12px;
+    font: inherit;
+    font-size: 14px;
+    color: #1b1d20;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235f666d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+.sort select:focus {
+    border-color: #12605f;
+    box-shadow: 0 0 0 3px rgba(18, 96, 95, 0.15);
+    outline: none;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #e3f4ec;
+    color: #0f4f4e;
+    border-radius: 999px;
+    padding: 6px 6px 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.chip button {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    font-size: 18px;
+    color: #4a6b68;
+}
+.chip button:hover {
+    background: rgba(18, 96, 95, 0.15);
+}
+.clear {
+    border: 0;
+    background: none;
+    color: #12605f;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px;
+}
+.clear:hover {
+    text-decoration: underline;
+}
+.count {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 12px 16px;
+    background: #fff;
+    border: 1px solid #e6e8ea;
+    border-radius: 12px;
+    transition:
+        box-shadow 0.2s,
+        transform 0.2s,
+        border-color 0.2s;
+}
+.card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    border-color: #cfe6dc;
+}
+.img {
     position: relative;
-    background: var(--surface);
-    border-radius: 14px;
-    aspect-ratio: 1.5/1;
+    aspect-ratio: 1.2/1;
+    background: #f3f4f5;
+    border-radius: 8px;
     display: grid;
     place-items: center;
     overflow: hidden;
 }
-.main-img88 {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-.main-img {
+.img img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 12px;
-    display: block;
-}
-.main-img,
-.thumb img {
+    padding: 10px;
     mix-blend-mode: multiply;
 }
-.round {
+.ph {
+    font-size: 52px;
+    color: #b7bcc2;
+}
+.badge {
     position: absolute;
-    border-radius: 50%;
-    border: 0;
-    background: #fff;
-    color: #222;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
-    display: grid;
-    place-items: center;
-    z-index: 2;
-}
-.round.nav {
-    width: 34px;
-    height: 34px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-}
-.prev {
-    left: 10px;
-}
-.next {
-    right: 10px;
-}
-.round.fav {
-    width: 30px;
-    height: 30px;
-    right: 10px;
-    top: 10px;
-    font-size: 15px;
-}
-.round.fav.on {
-    color: #e53935;
-}
-.round.fav.on .i {
-    fill: #e53935;
-}
-.thumbs {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 14px;
-}
-.thumb {
-    width: 100%;
-    aspect-ratio: 1.1/1;
-    background: var(--surface);
-    border: 1.5px solid transparent;
-    border-radius: 8px;
-    padding: 6px;
-    overflow: hidden;
-}
-.thumb[aria-selected='true'] {
-    border-color: var(--brand);
-}
-.thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-.specs {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    margin-top: 18px;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-}
-.spec {
-    text-align: center;
-    padding: 0 4px;
-    border-right: 1px solid var(--line);
-}
-.spec:last-child {
-    border-right: 0;
-}
-.spec .i {
-    font-size: 22px;
-    color: var(--brand);
-    margin-bottom: 6px;
-}
-.spec b {
-    display: block;
-    font-weight: 500;
-    font-size: 13px;
-}
-.spec small {
-    display: block;
-    color: var(--muted);
+    left: 8px;
+    top: 8px;
+    background: #ddf3e7;
+    color: #17734a;
+    border-radius: 6px;
+    padding: 2px 8px;
     font-size: 11px;
-    line-height: 1.3;
-}
-
-.head {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    align-items: flex-start;
-}
-h1 {
-    margin: 0;
-    font-size: clamp(26px, 3.6vw, 28px);
-    line-height: 1.15;
     font-weight: 600;
-    letter-spacing: -0.01em;
 }
-.brand {
-    display: inline-block;
-    margin-top: 10px;
-    color: var(--brand);
+.card h2 {
+    margin: 4px 0 0;
+    font-size: 14.5px;
     font-weight: 500;
-    font-size: 15px;
-}
-.share {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid var(--line);
-    background: var(--bg);
-    border-radius: 10px;
-    padding: 9px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap;
+    line-height: 1.35;
 }
 .rate {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 12px;
-    font-size: 14px;
-}
-.stars {
-    font-size: 22px;
-    letter-spacing: 1px;
-    line-height: 1;
-    background: linear-gradient(
-        90deg,
-        var(--star) var(--fill),
-        var(--empty) var(--fill)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    gap: 4px;
+    font-size: 13px;
+    color: #6b7280;
 }
 .rate b {
+    color: #1b1d20;
     font-weight: 600;
 }
-.rate .n {
-    color: var(--muted);
-}
-.ver {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    border: 1px solid var(--vline);
-    background: var(--vbg);
-    color: var(--brand);
-    border-radius: 6px;
-    padding: 2px 9px;
-    font-size: 11px;
+.star {
+    color: #f6a623;
+    font-size: 18px;
 }
 .price {
     display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-top: 20px;
+    align-items: baseline;
+    gap: 8px;
 }
-.now {
-    font-size: 34px;
+.price strong {
+    font-size: 17px;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
 }
-.old {
-    font-size: 18px;
-    color: var(--muted);
-    text-decoration: line-through;
-    font-weight: 500;
+.price s {
+    color: #8a8f98;
+    font-size: 13px;
 }
-.off {
-    background: var(--goodbg);
-    color: var(--good);
-    border-radius: 8px;
-    padding: 4px 14px;
-    font-weight: 600;
-    font-size: 14px;
+.feat {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 10px 0 0;
+    border-top: 1px solid #eef0f1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-size: 12px;
+    color: #5f666d;
 }
-.deal {
+.feat li {
     display: flex;
     align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-top: 12px;
-    font-size: 14px;
-    color: var(--muted);
+    gap: 5px;
 }
-.deal span {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.good {
-    background: var(--goodbg);
-    color: var(--good);
-    border-radius: 8px;
-    padding: 5px 12px;
-    font-weight: 500;
+.feat :deep(svg) {
+    width: 16px;
+    height: 16px;
+    color: #6b7280;
 }
 
-.cta {
-    display: grid;
-    grid-template-columns: 1.25fr 1fr 0.85fr;
-    gap: 12px;
-    margin-top: 20px;
+.empty {
+    padding: 70px 0;
+    text-align: center;
+    color: #5f666d;
+}
+.big {
+    font-size: 48px;
+    color: #b7bcc2;
 }
 .btn {
-    border: 1px solid var(--line);
-    background: var(--bg);
-    color: var(--text);
-    border-radius: 8px;
-    height: 42px;
-    font-weight: 500;
+    margin-top: 6px;
+    border: 1px solid #12605f;
+    background: #fff;
+    color: #12605f;
+    border-radius: 10px;
+    padding: 10px 22px;
     font-size: 14px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-.btn.primary {
-    background: var(--brand);
-    border-color: var(--brand);
-    color: var(--brand-ink);
+    font-weight: 500;
 }
 .btn:hover {
-    filter: brightness(0.96);
-}
-.btn.on {
-    background: var(--goodbg);
-    color: var(--good);
+    background: #e6f5ef;
 }
 
-.verdict {
-    margin-top: 20px;
-    background: var(--vbg);
-    border: 1px solid var(--vline);
-    border-radius: 12px;
-    padding: 18px 20px;
+@media (max-width: 760px) {
+    h1 {
+        font-size: 26px;
+    }
+    .lead {
+        font-size: 14px;
+    }
+    .bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .sort {
+        justify-content: space-between;
+    }
+    .sort select {
+        flex: 1;
+    }
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+    .card h2 {
+        font-size: 14px;
+    }
+    .price strong {
+        font-size: 16px;
+    }
 }
-.verdict h2 {
-    margin: 0 0 10px;
-    font-size: 15px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.verdict .spark {
-    color: var(--brand);
-    fill: currentColor;
-    stroke: none;
-}
-.verdict p {
-    margin: 0 0 16px;
-    font-size: 14.5px;
-}
-.fit {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.fit > div:first-child {
-    padding-right: 18px;
-    border-right: 1px solid var(--vline);
-}
-.fit > div:last-child {
-    padding-left: 18px;
-}
-.fit h3 {
-    margin: 0 0 10px;
-    font-size: 13.5px;
-    font-weight: 600;
-}
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-.tag {
-    font-size: 12px;
-    padding: 5px 11px;
-    border-radius: 6px;
-    background: var(--tagbg);
-    color: var(--good);
-    border: 1px solid var(--vline);
-}
-.tag.no {
-    background: var(--badbg);
-    color: var(--bad);
-    border-color: var(--badline);
-}
-
-@media (max-width: 860px) {
+@media (max-width: 420px) {
     .grid {
         grid-template-columns: 1fr;
-    }
-    .cta,
-    .fit {
-        grid-template-columns: 1fr;
-    }
-    .fit > div:first-child {
-        padding: 0 0 14px;
-        border-right: 0;
-        border-bottom: 1px solid var(--vline);
-    }
-    .fit > div:last-child {
-        padding: 14px 0 0;
     }
 }
 </style>
