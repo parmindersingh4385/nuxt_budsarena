@@ -270,7 +270,7 @@ const brands = [
                     </div>
                     <NuxtLink
                         class="pvf"
-                        :to="`/compare?ids=${duo[0].slug},${duo[1].slug}`"
+                        :to="`/compare/${duo[0].slug}-vs-${duo[1].slug}`"
                         >Open full comparison</NuxtLink
                     >
                 </div>
