@@ -500,10 +500,10 @@ async function submitForm() {
         border-color 0.15s,
         box-shadow 0.15s;
 }
-.control input,
+/* .control input,
 .control select {
     height: 42px;
-}
+} */
 .control:has(.lead) input,
 .control:has(.lead) select {
     padding-left: 40px;
