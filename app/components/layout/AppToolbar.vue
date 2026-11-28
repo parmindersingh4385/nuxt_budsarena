@@ -95,7 +95,7 @@ watch(
     border-bottom: 1px solid var(--line);
 }
 
-.menu-btn {
+/* .menu-btn {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
@@ -107,7 +107,22 @@ watch(
     border: 0;
     border-radius: 8px;
     cursor: pointer;
+} */
+
+.menu-btn {
+    display: none; /* hidden on desktop */
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    background: none;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
 }
+
 .menu-btn span {
     display: block;
     height: 2px;
@@ -189,6 +204,9 @@ button:focus-visible {
 @media (max-width: 860px) {
     .toolbar {
         padding: 0 12px;
+    }
+    .menu-btn {
+        display: inline-flex; /* visible on phones and small tablets */
     }
     .nav {
         display: none;

@@ -195,7 +195,7 @@ const brands = [
     <div class="home">
         <!-- Hero -->
         <section class="hero">
-            <div class="w hero-grid">
+            <div class="page-wrap hero-grid">
                 <div>
                     <div class="eyebrow">Compare • Choose • Listen better</div>
                     <h1>Find the right earbuds, <em>faster.</em></h1>
@@ -277,7 +277,7 @@ const brands = [
             </div>
         </section>
 
-        <div class="w">
+        <div class="page-wrap">
             <!-- Steps -->
             <section class="sec">
                 <h2>How BudsArena helps</h2>

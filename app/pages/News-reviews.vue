@@ -211,8 +211,8 @@ async function subscribe() {
 </script>
 
 <template>
-    <div class="nr">
-        <div class="w">
+    <div class="newsPage">
+        <div class="page-wrap">
             <header class="head">
                 <nav class="crumbs" aria-label="Breadcrumb">
                     <NuxtLink to="/">Home</NuxtLink
@@ -470,7 +470,7 @@ async function subscribe() {
 </template>
 
 <style scoped>
-.nr {
+.newsPage {
     color: #1b1d20;
     line-height: 1.5;
     font-family:
@@ -480,39 +480,31 @@ async function subscribe() {
         'Segoe UI',
         Roboto,
         sans-serif;
-    padding-bottom: 60px;
+    padding-bottom: 70px;
 }
-.nr * {
+.newsPage * {
     box-sizing: border-box;
 }
-.nr a {
+.newsPage a {
     text-decoration: none;
     color: inherit;
 }
-.nr button {
+.newsPage button {
     font: inherit;
     color: inherit;
     cursor: pointer;
 }
-.nr :focus-visible {
+.newsPage :focus-visible {
     outline: 2px solid #12605f;
     outline-offset: 2px;
-}
-.w {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.head {
-    padding-top: 40px;
 }
 .crumbs {
     display: flex;
     gap: 12px;
+    align-items: center;
+    padding: 20px 0 14px;
     font-size: 14px;
     color: #5f666d;
-    margin-bottom: 14px;
 }
 .crumbs a {
     color: #12605f;
@@ -523,16 +515,14 @@ async function subscribe() {
 }
 h1 {
     margin: 0;
-    font-size: 40px;
-    line-height: 1.15;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 600;
 }
 .lead {
     margin: 10px 0 0;
-    font-size: 16px;
+    font-size: 15px;
     color: #5f666d;
-    max-width: 600px;
 }
 
 .bar {

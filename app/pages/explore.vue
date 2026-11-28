@@ -301,20 +301,18 @@ const saved = (p) => (p.mrp > p.price ? p.mrp - p.price : 0);
 </script>
 
 <template>
-    <div class="ex">
-        <div class="w">
-            <nav class="crumbs" aria-label="Breadcrumb">
-                <NuxtLink to="/">Home</NuxtLink
-                ><span aria-hidden="true">›</span>
-                <NuxtLink to="/explore">Explore</NuxtLink>
-                <template v-if="use && useInfo[use]"
-                    ><span aria-hidden="true">›</span
-                    ><b>{{ heading }}</b></template
-                >
-            </nav>
-
-            <h1>{{ heading }}</h1>
-            <p class="lead">{{ description }}</p>
+    <div class="explorePage">
+        <div class="page-wrap">
+            <header class="head">
+                <nav class="crumbs" aria-label="Breadcrumb">
+                    <NuxtLink to="/">Home</NuxtLink
+                    ><span aria-hidden="true">›</span><b>Explore</b>
+                </nav>
+                <h1>{{ heading }}</h1>
+                <p class="lead">
+                    {{ description }}
+                </p>
+            </header>
 
             <!-- Search + sort -->
             <div class="bar">
@@ -454,7 +452,7 @@ const saved = (p) => (p.mrp > p.price ? p.mrp - p.price : 0);
 </template>
 
 <style scoped>
-.ex {
+.explorePage {
     color: #1b1d20;
     line-height: 1.5;
     font-family:
@@ -466,19 +464,19 @@ const saved = (p) => (p.mrp > p.price ? p.mrp - p.price : 0);
         sans-serif;
     padding-bottom: 70px;
 }
-.ex * {
+.explorePage * {
     box-sizing: border-box;
 }
-.ex a {
+.explorePage a {
     text-decoration: none;
     color: inherit;
 }
-.ex button {
+.explorePage button {
     font: inherit;
     color: inherit;
     cursor: pointer;
 }
-.ex :focus-visible {
+.explorePage :focus-visible {
     outline: 2px solid #12605f;
     outline-offset: 2px;
 }
